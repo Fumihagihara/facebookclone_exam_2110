@@ -12,7 +12,11 @@ class PicturesController < ApplicationController
 
   # GET /pictures/new
   def new
-    @picture = Picture.new
+    if params[:back]
+      @picture = Picture.new(picture_params)
+    else
+      @picture = Picture.new
+    end
   end
 
   # GET /pictures/1/edit
@@ -56,6 +60,10 @@ class PicturesController < ApplicationController
     end
   end
 
+  def confirm
+    @picture = Picture.new(picture_params)
+  end
+
   private
     def picture_params
       params.require(:picture).permit(:image, :image_cache)
@@ -67,6 +75,6 @@ class PicturesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def picture_params
-      params.require(:picture).permit(:image)
+      params.require(:picture).permit(:image, :image_cache)
     end
 end
